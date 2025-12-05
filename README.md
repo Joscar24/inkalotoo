@@ -1,132 +1,294 @@
-Inkaloto 🎉
+🎰 InkaLoto – Plataforma Web de Juegos y Sorteos en Línea
 
-Inkaloto es una plataforma web para la gestión de sorteos y juegos en línea. Los usuarios pueden registrarse, generar boletos digitales y participar en sorteos automáticos. Además, el sistema envía notificaciones automáticas con los resultados de los sorteos y premios obtenidos.
+InkaLoto es una plataforma web desarrollada para la gestión de sorteos y juegos en línea, permitiendo a los usuarios registrarse, administrar su billetera digital, participar en juegos como bingo, tragamonedas y sorteos, y recibir notificaciones automáticas sobre premios y jugadas realizadas.
 
-🚀 Características
+El sistema sigue una arquitectura MVC por capas implementada con JSF, CDI, JPA, DAOs y Services, garantizando una aplicación modular, mantenible y escalable.
 
+🚀 Características principales
 🔐 Registro y autenticación de usuarios
 
-🎟 Generación automática de boletos
+El usuario puede crear una cuenta y acceder mediante login seguro.
 
-🎲 Sorteos automáticos
+👛 Billetera digital
 
-📲 Notificaciones automáticas
+Recargas
 
-📜 Historial de sorteos y resultados
+Retiros
+
+Movimientos de saldo
+
+Historial completo
+
+🎲 Juegos disponibles
+
+Bingo automático
+
+Tragamonedas 
+
+Sorteos automáticos
+
+🔔 Notificaciones en tiempo real
+
+El usuario recibe notificaciones automáticas sobre:
+
+Premios obtenidos
+
+Resultados de sorteos
+
+Movimientos de la billetera
+
+📜 Historiales
+
+Historial de jugadas
+
+Historial de premios
+
+Historial de transacciones
 
 🛠 Tecnologías utilizadas
+Frontend
 
-Frontend: XHTML, CSS (sin Bootstrap)
+JSF (JavaServer Faces) con XHTML
 
-Backend: Java (Servlets, JSP)
+CSS puro (sin Bootstrap ni frameworks externos)
 
-Base de datos: MySQL
+Backend
 
-Arquitectura: MVC (Modelo-Vista-Controlador)
+Java
 
-Servidor: GlassFish
+JSF Managed Beans
 
-Dependencias:
+CDI (Inyección de dependencias)
 
-EclipseLink para persistencia JPA
+Servicios (Capa de lógica)
 
-MySQL Connector/J para la conexión con MySQL
+DAO (Acceso a BD con JPA)
 
-Otras dependencias necesarias para el funcionamiento de la aplicación
+EclipseLink
+
+MySQL
+
+Base de Datos
+
+MySQL 8
+
+Persistencia JPA con EclipseLink
+
+Consultas y transacciones mediante DAOs
+
+Servidor
+
+GlassFish 7 / 8
+
+Arquitectura
+
+MVC por capas, separando:
+
+Vista (XHTML)
+
+Beans (Controladores JSF)
+
+Servicios (Lógica)
+
+DAOs (Acceso a BD)
+
+Modelo JPA
 
 🗂 Estructura del proyecto
-
-El proyecto está organizado de la siguiente manera:
-
-inkalotoo/
+inkaloto/
 │
-├── /src/                              # Código fuente del proyecto
-│   ├── /com/inkaloto/                 # Clases del modelo, servicio y controlador
-│   │   ├── /dao/                     # Clases de acceso a datos (DAO)
-│   │   ├── /modelo/                  # Clases de modelo (Usuario, Sorteo, etc.)
-│   │   ├── /servicio/                # Lógica de negocio (Servicios)
-│   │   └── /web/bean/                # Clases de Bean para gestión de la vista
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/inkaloto/
+│   │   │       ├── modelo/       # Entidades JPA (Usuario, Billetera, Jugada, etc.)
+│   │   │       ├── dao/          # Clases DAO para consultas y persistencia
+│   │   │       ├── servicio/     # Lógica del negocio (Services)
+│   │   │       └── web/bean/     # Managed Beans (controladores JSF)
+│   │   │
+│   │   ├── resources/
+│   │   │   └── META-INF/persistence.xml  # Configuración JPA
+│   │   │
+│   │   └── webapp/               # Vista (XHTML)
+│   │       ├── *.xhtml           # Todas las páginas UI
+│   │       ├── css/              # Estilos personalizados
+│   │       ├── imagenes/         # Recursos gráficos
+│   │       └── WEB-INF/
+│   │           └── beans.xml     # Activación de CDI
 │   │
-│   └── /resources/                   # Archivos de configuración (persistence.xml, etc.)
+│   └── database/
+│       └── prueba1.sql           # Script SQL para crear la base de datos
 │
-├── /Web Pages/                        # Páginas web (XHTML)
-│   ├── /WEB-INF/                     # Archivos de configuración de la aplicación
-│   ├── /css/                          # Archivos CSS
-│   ├── /imagenes/                     # Archivos de imágenes
-│   └── /jsp/                          # Páginas XHTML para la interfaz de usuario
-│
-├── /database/                         # Script SQL para la base de datos
-│   └── prueba1.sql                # Script para crear la base de datos
-│
-├── README.md                          # Este archivo
-└── pom.xml                            # Configuración de Maven
+├── pom.xml                       # Dependencias Maven
+└── README.md                     # Este archivo
 
-📦 Instalación y uso
-1. Clonar el repositorio
+🧠 Arquitectura interna (Backend)
 
-Para obtener una copia local del proyecto, clona el repositorio:
+Tu proyecto usa una arquitectura profesional en capas:
 
+🟦 1. Managed Beans (JSF)
+
+Ubicación:
+src/main/java/com/inkaloto/web/bean/
+
+Función:
+Controladores de la vista.
+Conectan los formularios XHTML con los servicios y la lógica.
+
+Ejemplos:
+LoginBean, CargarSaldoBean, BingoBean, TragamonedasBean, MiCuentaBean.
+
+🟩 2. CDI (Inyección de Dependencias)
+
+Ubicación:
+WEB-INF/beans.xml
+
+Permite:
+
+Usar @Named para exponer beans a JSF
+
+Manejar el ciclo de vida (@RequestScoped, @SessionScoped)
+
+Inyectar Beans dentro de otros Beans con @Inject
+
+Ejemplo real:
+
+@Inject
+private LoginBean loginBean;
+
+🟨 3. Servicios (Lógica de negocio)
+
+Ubicación:
+src/main/java/com/inkaloto/servicio/
+
+Qué hacen:
+
+Manejan las reglas del juego
+
+Validan datos
+
+Actualizan saldo
+
+Registran apuestas y premios
+
+Generan números ganadores
+
+Ejemplos:
+
+UsuarioService
+
+BilleteraService
+
+JugadaService
+
+SorteoService
+
+🟥 4. DAOs (Acceso a la Base de Datos)
+
+Ubicación:
+src/main/java/com/inkaloto/dao/
+
+Qué hacen:
+
+Ejecutan consultas y transacciones JPA
+
+Guardan y actualizan entidades
+
+No contienen lógica del negocio
+
+Ejemplos:
+
+UsuarioDAO
+
+MovimientoBilleteraDAO
+
+SorteoDAO
+
+🟪 5. Modelo (Entidades JPA)
+
+Ubicación:
+src/main/java/com/inkaloto/modelo/
+
+Representan tablas de la base de datos.
+Ejemplo:
+
+Usuario
+
+BilleteraUsuario
+
+MovimientoBilletera
+
+Jugada
+
+Sorteo
+
+Notificacion
+
+📦 Instalación y Ejecución
+1️⃣ Clonar el proyecto
 git clone https://github.com/jeonxvix/inkalotoo.git
 
-2. Configuración del servidor
+2️⃣ Configurar la base de datos
 
-Para ejecutar la aplicación en GlassFish, sigue estos pasos:
-
-Sube el archivo .war:
-
-En el panel de administración de GlassFish, dirígete a la sección Applications y haz clic en Deploy para subir el archivo .war de la aplicación.
-
-Base de datos:
-
-Crea la base de datos inkaloto en MySQL:
+Crear la base:
 
 CREATE DATABASE inkaloto;
 
 
-Importa el archivo inkaloto_db.sql desde el directorio /database/ para crear las tablas necesarias.
+Importar el script:
 
-Iniciar la aplicación:
+/database/prueba1.sql
 
-Una vez que el archivo .war se haya desplegado, puedes acceder a la aplicación en el navegador en la URL correspondiente (por ejemplo, http://localhost:8080/inkaloto).
+3️⃣ Configurar GlassFish
 
-3. Ejecutar el proyecto
+Entrar a Admin Console
 
-Accede a la aplicación en tu navegador, regístrate y comienza a participar en los sorteos.
+Ir a: Applications > Deploy
 
-🛠 Dependencias
+Subir el .war generado por Maven
 
-A continuación, se enumeran las principales dependencias de Maven utilizadas en el proyecto:
+Iniciar la aplicación
 
-EclipseLink: Para la gestión de la persistencia con JPA.
+Acceso (ejemplo):
 
-MySQL Connector/J: Para la conexión con la base de datos MySQL.
+http://localhost:8080/inkaloto
 
-Jakarta EE: Para servicios web y controladores.
+🛠 Dependencias principales (pom.xml)
 
-Otros JARs necesarios para la funcionalidad de la aplicación.
+EclipseLink – JPA Provider
+
+Jakarta Faces – JSF
+
+CDI – Inyección de dependencias
+
+Jakarta Persistence – ORM
+
+MySQL Connector/J – Conexión BD
+
+Jakarta Servlet API
 
 🤝 Contribuciones
 
-Si deseas contribuir al proyecto, sigue estos pasos:
+Hacer fork
 
-Haz un fork del repositorio.
+Crear rama: nueva-funcionalidad
 
-Crea una nueva rama para tu funcionalidad (git checkout -b nueva-funcionalidad).
+Commit:
 
-Realiza tus cambios y haz un commit (git commit -am 'Añadí nueva funcionalidad').
+git commit -am "Añadí nueva funcionalidad"
 
-Sube tus cambios a tu repositorio (git push origin nueva-funcionalidad).
 
-Crea un pull request para que revisemos tus cambios.
+Push
+
+Crear Pull Request
 
 📜 Licencia
 
-Este proyecto está licenciado bajo la MIT License - consulta el archivo LICENSE
- para más detalles.
+Proyecto licenciado bajo MIT License.
 
 📧 Contacto
 
-Si tienes preguntas o deseas más información, contáctanos en [tu-email@dominio.com
-].
+Si necesitas soporte o más información:
+joscarcornejo@gmail.com
 
-¡Gracias por tu interés en Inkaloto! 🙌🎉
+🎉 ¡Gracias por usar InkaLoto!
